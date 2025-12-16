@@ -29,12 +29,10 @@ export const App = () => (
   </QueryClientProvider>
 );
 
-let appMounted = false;
+const rootElement = document.getElementById("root");
 
-if (!appMounted) {
-  const rootElement = document.getElementById("root");
-  if (rootElement) {
-    createRoot(rootElement).render(<App />);
-    appMounted = true;
-  }
+// Only create root once per page load
+if (rootElement && !(window as any).__reactAppMounted) {
+  createRoot(rootElement).render(<App />);
+  (window as any).__reactAppMounted = true;
 }

@@ -218,12 +218,20 @@ export default function ApiKeyManager() {
             </div>
             <span className="text-xl font-bold text-white">API Keys</span>
           </div>
-          <a
-            href="/"
-            className="text-slate-300 hover:text-white transition text-sm"
-          >
-            Home
-          </a>
+          {puterUser ? (
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-slate-300">
+                {puterUser.username || "Signed in"}
+              </span>
+            </div>
+          ) : (
+            <Button
+              onClick={handlePuterSignIn}
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white border-0 text-sm"
+            >
+              Sign in with Puter
+            </Button>
+          )}
         </div>
       </nav>
 

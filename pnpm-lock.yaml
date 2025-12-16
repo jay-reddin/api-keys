@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@heyputer/puter.js':
+        specifier: ^2.2.2
+        version: 2.2.2
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -421,6 +424,12 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@heyputer/kv.js@0.2.1':
+    resolution: {integrity: sha512-YhVtzz7ZA/HmuaDvzZZhhUyQWBvp3/TXeY4jULssTdLJwT+tEM4BTYHXttORX+V5auvrYinjj8dNFQnby5T82w==}
+
+  '@heyputer/puter.js@2.2.2':
+    resolution: {integrity: sha512-/lZPRLJPO79W7erjKOitNfVXCC3uJzRPD6W25lliLlJJDS1VROFPA7rTW2l8zniVCScjaQnkNyckRVRrEDo2XA==}
 
   '@hookform/resolvers@5.2.1':
     resolution: {integrity: sha512-u0+6X58gkjMcxur1wRWokA7XsiiBJ6aK17aPZxhkoYiK5J+HcTx0Vhu9ovXe6H+dVpO6cjrn2FkJTryXEMlryQ==}
@@ -3027,6 +3036,12 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
 
   '@floating-ui/utils@0.2.10': {}
+
+  '@heyputer/kv.js@0.2.1': {}
+
+  '@heyputer/puter.js@2.2.2':
+    dependencies:
+      '@heyputer/kv.js': 0.2.1
 
   '@hookform/resolvers@5.2.1(react-hook-form@7.62.0(react@18.3.1))':
     dependencies:

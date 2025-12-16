@@ -34,6 +34,7 @@ export default function ApiKeyManager() {
   const [key, setKey] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [revealedKeys, setRevealedKeys] = useState<Set<string>>(new Set());
+  const [expandedProviders, setExpandedProviders] = useState<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const toggleReveal = (id: string) => {

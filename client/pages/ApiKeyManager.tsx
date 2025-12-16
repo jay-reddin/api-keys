@@ -137,6 +137,20 @@ export default function ApiKeyManager() {
     }
   };
 
+  // Group keys by provider (label)
+  const groupedKeys = useMemo(() => {
+    const groups = new Map<string, ApiKey[]>();
+    keys.forEach((key) => {
+      if (!groups.has(key.label)) {
+        groups.set(key.label, []);
+      }
+      groups.get(key.label)!.push(key);
+    });
+    return Array.from(groups.entries()).sort((a, b) =>
+      a[0].localeCompare(b[0])
+    );
+  }, [keys]);
+
   if (!isLoaded) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">

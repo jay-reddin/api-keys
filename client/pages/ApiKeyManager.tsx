@@ -3,12 +3,6 @@ import { usePuterStorage, ApiKey } from "@/hooks/usePuterStorage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion";
-import {
   Eye,
   EyeOff,
   Copy,

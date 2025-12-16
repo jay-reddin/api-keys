@@ -104,11 +104,38 @@ export const usePuterStorage = () => {
     async (file: File) => {
       try {
         const text = await file.text();
-        const imported = JSON.parse(text) as ApiKey[];
+
+        // Try to parse the JSON
+        let imported: ApiKey[];
+        try {
+          imported = JSON.parse(text) as ApiKey[];
+        } catch (parseErr) {
+          // Check if it's a non-JSON file
+          if (text.trim().startsWith("#") || text.trim().startsWith("<!")) {
+            throw new Error(
+              "Invalid file format. Please import a JSON file exported from this app."
+            );
+          }
+          // Check for common issues
+          if (text.includes("---") || text.includes("...")) {
+            throw new Error(
+              "File contains YAML or markdown formatting. Please use the JSON export from this app."
+            );
+          }
+          throw new Error(
+            `Invalid JSON format. ${(parseErr as Error).message}`
+          );
+        }
 
         // Validate structure
         if (!Array.isArray(imported)) {
-          throw new Error("Invalid format: expected an array");
+          throw new Error(
+            "Invalid format: JSON must be an array of API keys. Expected format: [{\"label\": \"...\", \"key\": \"...\"}, ...]"
+          );
+        }
+
+        if (imported.length === 0) {
+          throw new Error("The imported file contains no API keys.");
         }
 
         for (const item of imported) {
@@ -119,7 +146,7 @@ export const usePuterStorage = () => {
             typeof item.key !== "string"
           ) {
             throw new Error(
-              "Invalid format: each item must have label and key as strings"
+              "Invalid format: each item must have 'label' and 'key' as strings"
             );
           }
         }
@@ -127,6 +154,12 @@ export const usePuterStorage = () => {
         // Merge with existing keys, avoiding duplicates by label
         const existingLabels = new Set(keys.map((k) => k.label));
         const newKeys = imported.filter((k) => !existingLabels.has(k.label));
+
+        if (newKeys.length === 0) {
+          throw new Error(
+            "All keys in the imported file already exist (duplicates detected)."
+          );
+        }
 
         const merged = [
           ...keys,

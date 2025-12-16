@@ -241,31 +241,37 @@ export default function ApiKeyManager() {
         </div>
 
         {/* Import/Export Actions */}
-        <div className="flex gap-3 mb-8">
-          <Button
-            onClick={handleExport}
-            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-0"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Export
-          </Button>
+        <div className="mb-8">
+          <div className="flex gap-3 mb-3">
+            <Button
+              onClick={handleExport}
+              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-0"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Export
+            </Button>
 
-          <Button
-            onClick={handleImportClick}
-            variant="outline"
-            className="text-white border-slate-700 hover:bg-slate-800"
-          >
-            <Upload className="w-4 h-4 mr-2" />
-            Import
-          </Button>
+            <Button
+              onClick={handleImportClick}
+              variant="outline"
+              className="text-white border-slate-700 hover:bg-slate-800"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Import Keys
+            </Button>
 
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".json,.txt,.text"
-            onChange={handleImportFile}
-            className="hidden"
-          />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json,.txt,.text"
+              onChange={handleImportFile}
+              className="hidden"
+            />
+          </div>
+
+          <p className="text-xs text-slate-400">
+            💡 Supports JSON format or text files with PROVIDER=..., KEY=... format
+          </p>
         </div>
 
         {/* Keys List */}

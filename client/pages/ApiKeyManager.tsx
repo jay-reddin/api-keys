@@ -1,7 +1,13 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { usePuterStorage, ApiKey } from "@/hooks/usePuterStorage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
 import {
   Eye,
   EyeOff,
@@ -13,6 +19,7 @@ import {
   Plus,
   Check,
   X,
+  ChevronDown,
 } from "lucide-react";
 import { toast } from "sonner";
 

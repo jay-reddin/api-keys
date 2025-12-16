@@ -39,7 +39,7 @@ export default function ApiKeyManager() {
   const [puterUser, setPuterUser] = useState<{ username?: string } | null>(null);
 
   // Check Puter auth status on mount
-  useState(() => {
+  useEffect(() => {
     const checkPuterAuth = async () => {
       try {
         const puter = (window as any).puter;
@@ -52,7 +52,7 @@ export default function ApiKeyManager() {
       }
     };
     checkPuterAuth();
-  });
+  }, []);
 
   const handlePuterSignIn = async () => {
     try {

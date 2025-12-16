@@ -308,69 +308,106 @@ export default function ApiKeyManager() {
               </p>
             </div>
           ) : (
-            <div className="space-y-3">
-              {keys.map((apiKey) => (
-                <div
-                  key={apiKey.id}
-                  className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 hover:border-slate-600 transition"
+            <Accordion type="single" collapsible className="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+              {groupedKeys.map(([provider, providerKeys]) => (
+                <AccordionItem
+                  key={provider}
+                  value={provider}
+                  className="border-b border-slate-700 last:border-b-0 bg-slate-800/50 hover:bg-slate-800/70 transition"
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-white font-semibold mb-2">
-                        {apiKey.label}
-                      </h4>
-                      <div className="flex items-center gap-2">
-                        <code className="bg-slate-900/50 text-slate-300 px-3 py-2 rounded text-sm break-all font-mono">
-                          {revealedKeys.has(apiKey.id)
-                            ? apiKey.key
-                            : "•".repeat(Math.min(apiKey.key.length, 40))}
-                        </code>
-                        <button
-                          onClick={() => toggleReveal(apiKey.id)}
-                          className="p-2 hover:bg-slate-700 rounded transition flex-shrink-0"
-                          title={
-                            revealedKeys.has(apiKey.id) ? "Hide" : "Reveal"
-                          }
-                        >
-                          {revealedKeys.has(apiKey.id) ? (
-                            <EyeOff className="w-4 h-4 text-slate-400" />
-                          ) : (
-                            <Eye className="w-4 h-4 text-slate-400" />
-                          )}
-                        </button>
-                        <button
-                          onClick={() => copyToClipboard(apiKey.key, apiKey.label)}
-                          className="p-2 hover:bg-slate-700 rounded transition flex-shrink-0"
-                          title="Copy to clipboard"
-                        >
-                          <Copy className="w-4 h-4 text-slate-400" />
-                        </button>
+                  <AccordionTrigger className="px-6 py-4 text-white hover:no-underline">
+                    <div className="flex items-center gap-3">
+                      <div className="flex-1 text-left">
+                        <h3 className="text-lg font-semibold text-white">
+                          {provider}
+                        </h3>
+                        <p className="text-sm text-slate-400">
+                          {providerKeys.length} key{providerKeys.length !== 1 ? "s" : ""}
+                        </p>
                       </div>
-                      <p className="text-xs text-slate-500 mt-2">
-                        Added {new Date(apiKey.createdAt).toLocaleDateString()}
-                      </p>
                     </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-6 py-4 bg-slate-900/30">
+                    <div className="space-y-3">
+                      {providerKeys.map((apiKey) => (
+                        <div
+                          key={apiKey.id}
+                          className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 hover:border-slate-600 transition"
+                        >
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-white font-semibold mb-1">
+                                {apiKey.label}
+                              </h4>
+                              <div className="space-y-2 mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs text-slate-400 min-w-fit">
+                                    Key:
+                                  </span>
+                                  <code className="bg-slate-900/50 text-slate-300 px-3 py-2 rounded text-sm break-all font-mono flex-1">
+                                    {revealedKeys.has(apiKey.id)
+                                      ? apiKey.key
+                                      : "•".repeat(Math.min(apiKey.key.length, 40))}
+                                  </code>
+                                  <button
+                                    onClick={() => toggleReveal(apiKey.id)}
+                                    className="p-2 hover:bg-slate-700 rounded transition flex-shrink-0"
+                                    title={
+                                      revealedKeys.has(apiKey.id)
+                                        ? "Hide"
+                                        : "Reveal"
+                                    }
+                                  >
+                                    {revealedKeys.has(apiKey.id) ? (
+                                      <EyeOff className="w-4 h-4 text-slate-400" />
+                                    ) : (
+                                      <Eye className="w-4 h-4 text-slate-400" />
+                                    )}
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      copyToClipboard(
+                                        apiKey.key,
+                                        apiKey.label
+                                      )
+                                    }
+                                    className="p-2 hover:bg-slate-700 rounded transition flex-shrink-0"
+                                    title="Copy to clipboard"
+                                  >
+                                    <Copy className="w-4 h-4 text-slate-400" />
+                                  </button>
+                                </div>
+                              </div>
+                              <p className="text-xs text-slate-500">
+                                Added{" "}
+                                {new Date(apiKey.createdAt).toLocaleDateString()}
+                              </p>
+                            </div>
 
-                    <div className="flex gap-2 flex-shrink-0">
-                      <button
-                        onClick={() => handleEdit(apiKey)}
-                        className="p-2 hover:bg-slate-700 rounded transition"
-                        title="Edit key"
-                      >
-                        <Edit2 className="w-4 h-4 text-blue-400" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteKey(apiKey.id)}
-                        className="p-2 hover:bg-slate-700 rounded transition"
-                        title="Delete key"
-                      >
-                        <Trash2 className="w-4 h-4 text-red-400" />
-                      </button>
+                            <div className="flex gap-2 flex-shrink-0">
+                              <button
+                                onClick={() => handleEdit(apiKey)}
+                                className="p-2 hover:bg-slate-700 rounded transition"
+                                title="Edit key"
+                              >
+                                <Edit2 className="w-4 h-4 text-blue-400" />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteKey(apiKey.id)}
+                                className="p-2 hover:bg-slate-700 rounded transition"
+                                title="Delete key"
+                              >
+                                <Trash2 className="w-4 h-4 text-red-400" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  </div>
-                </div>
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </div>
+            </Accordion>
           )}
         </div>
       </div>

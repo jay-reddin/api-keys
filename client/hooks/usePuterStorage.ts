@@ -100,44 +100,91 @@ export const usePuterStorage = () => {
     URL.revokeObjectURL(url);
   }, [keys]);
 
+  // Parse text format API keys (PROVIDER=..., USERNAME=..., KEY=...)
+  const parseTextFormat = (text: string): ApiKey[] => {
+    const lines = text.split("\n");
+    const parsed: ApiKey[] = [];
+    let currentKey: { label?: string; key?: string } = {};
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+
+      // Skip empty lines and comments
+      if (!trimmed || trimmed.startsWith("#")) {
+        // If we have a complete key, add it
+        if (currentKey.label && currentKey.key) {
+          parsed.push({
+            id: Date.now().toString() + Math.random(),
+            label: currentKey.label,
+            key: currentKey.key,
+            createdAt: Date.now(),
+          });
+          currentKey = {};
+        }
+        continue;
+      }
+
+      // Parse PROVIDER=value
+      if (trimmed.startsWith("PROVIDER=")) {
+        const value = trimmed.replace("PROVIDER=", "").replace(/,+$/, "").trim();
+        if (value) currentKey.label = value;
+      }
+
+      // Parse KEY=value
+      if (trimmed.startsWith("KEY=")) {
+        const value = trimmed.replace("KEY=", "").replace(/,+$/, "").trim();
+        if (value) currentKey.key = value;
+      }
+
+      // Parse USERNAME=value (for reference, not used as label)
+      if (trimmed.startsWith("USERNAME=")) {
+        // Can enhance label if needed
+      }
+    }
+
+    // Add last key if exists
+    if (currentKey.label && currentKey.key) {
+      parsed.push({
+        id: Date.now().toString() + Math.random(),
+        label: currentKey.label,
+        key: currentKey.key,
+        createdAt: Date.now(),
+      });
+    }
+
+    return parsed;
+  };
+
   const importKeys = useCallback(
     async (file: File) => {
       try {
         const text = await file.text();
 
-        // Try to parse the JSON
-        let imported: ApiKey[];
+        let imported: ApiKey[] = [];
+
+        // Try JSON first
         try {
-          imported = JSON.parse(text) as ApiKey[];
-        } catch (parseErr) {
-          // Check if it's a non-JSON file
-          if (text.trim().startsWith("#") || text.trim().startsWith("<!")) {
-            throw new Error(
-              "Invalid file format. Please import a JSON file exported from this app."
-            );
+          const jsonData = JSON.parse(text) as ApiKey[];
+          if (Array.isArray(jsonData)) {
+            imported = jsonData;
           }
-          // Check for common issues
-          if (text.includes("---") || text.includes("...")) {
-            throw new Error(
-              "File contains YAML or markdown formatting. Please use the JSON export from this app."
-            );
-          }
+        } catch {
+          // Not JSON, try text format
+          imported = parseTextFormat(text);
+        }
+
+        // If no keys found, try text format as fallback
+        if (imported.length === 0) {
+          imported = parseTextFormat(text);
+        }
+
+        if (imported.length === 0) {
           throw new Error(
-            `Invalid JSON format. ${(parseErr as Error).message}`
+            "No API keys found in file. Supported formats: JSON array or KEY=value text format."
           );
         }
 
         // Validate structure
-        if (!Array.isArray(imported)) {
-          throw new Error(
-            "Invalid format: JSON must be an array of API keys. Expected format: [{\"label\": \"...\", \"key\": \"...\"}, ...]"
-          );
-        }
-
-        if (imported.length === 0) {
-          throw new Error("The imported file contains no API keys.");
-        }
-
         for (const item of imported) {
           if (
             !item.label ||
@@ -146,7 +193,7 @@ export const usePuterStorage = () => {
             typeof item.key !== "string"
           ) {
             throw new Error(
-              "Invalid format: each item must have 'label' and 'key' as strings"
+              "Invalid format: each item must have a label and a valid key"
             );
           }
         }

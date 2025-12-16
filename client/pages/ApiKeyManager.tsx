@@ -36,6 +36,37 @@ export default function ApiKeyManager() {
   const [revealedKeys, setRevealedKeys] = useState<Set<string>>(new Set());
   const [expandedProviders, setExpandedProviders] = useState<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [puterUser, setPuterUser] = useState<{ username?: string } | null>(null);
+
+  // Check Puter auth status on mount
+  useState(() => {
+    const checkPuterAuth = async () => {
+      try {
+        const puter = (window as any).puter;
+        if (puter && puter.auth) {
+          const user = await puter.auth.get_user();
+          setPuterUser(user);
+        }
+      } catch (err) {
+        console.log("Not authenticated with Puter yet");
+      }
+    };
+    checkPuterAuth();
+  });
+
+  const handlePuterSignIn = async () => {
+    try {
+      const puter = (window as any).puter;
+      if (puter && puter.auth) {
+        const user = await puter.auth.authenticate();
+        setPuterUser(user);
+        toast.success(`Signed in as ${user?.username || "User"}`);
+      }
+    } catch (err) {
+      console.error("Puter auth error:", err);
+      toast.error("Failed to sign in with Puter");
+    }
+  };
 
   const toggleReveal = (id: string) => {
     const newRevealed = new Set(revealedKeys);

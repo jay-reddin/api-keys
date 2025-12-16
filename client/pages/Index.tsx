@@ -1,5 +1,6 @@
 import { ArrowRight, Code2, Zap, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
@@ -20,6 +21,9 @@ export default function Index() {
             <a href="#getting-started" className="text-slate-300 hover:text-white transition">
               Get Started
             </a>
+            <Link to="/api-keys" className="text-slate-300 hover:text-white transition">
+              API Keys
+            </Link>
           </div>
         </div>
       </nav>

@@ -313,27 +313,39 @@ export default function ApiKeyManager() {
               </p>
             </div>
           ) : (
-            <Accordion type="single" collapsible className="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
-              {groupedKeys.map(([provider, providerKeys]) => (
-                <AccordionItem
+            <div className="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+              {groupedKeys.map(([provider, providerKeys], index) => (
+                <div
                   key={provider}
-                  value={provider}
-                  className="border-b border-slate-700 last:border-b-0 bg-slate-800/50 hover:bg-slate-800/70 transition"
+                  className={
+                    index !== groupedKeys.length - 1
+                      ? "border-b border-slate-700"
+                      : ""
+                  }
                 >
-                  <AccordionTrigger className="px-6 py-4 text-white hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1 text-left">
-                        <h3 className="text-lg font-semibold text-white">
-                          {provider}
-                        </h3>
-                        <p className="text-sm text-slate-400">
-                          {providerKeys.length} key{providerKeys.length !== 1 ? "s" : ""}
-                        </p>
-                      </div>
+                  {/* Provider Header */}
+                  <button
+                    onClick={() => toggleExpandProvider(provider)}
+                    className="w-full px-6 py-4 bg-slate-800/50 hover:bg-slate-800/70 transition flex items-center justify-between text-white group"
+                  >
+                    <div className="flex items-center gap-3 flex-1 text-left">
+                      <h3 className="text-lg font-semibold text-white">
+                        {provider}
+                      </h3>
+                      <span className="text-sm text-slate-400">
+                        ({providerKeys.length} key{providerKeys.length !== 1 ? "s" : ""})
+                      </span>
                     </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-6 py-4 bg-slate-900/30">
-                    <div className="space-y-3">
+                    <ChevronDown
+                      className={`w-5 h-5 text-slate-400 transition-transform ${
+                        expandedProviders.has(provider) ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {/* Provider Content */}
+                  {expandedProviders.has(provider) && (
+                    <div className="px-6 py-4 bg-slate-900/30 space-y-3">
                       {providerKeys.map((apiKey) => (
                         <div
                           key={apiKey.id}
@@ -409,10 +421,10 @@ export default function ApiKeyManager() {
                         </div>
                       ))}
                     </div>
-                  </AccordionContent>
-                </AccordionItem>
+                  )}
+                </div>
               ))}
-            </Accordion>
+            </div>
           )}
         </div>
       </div>

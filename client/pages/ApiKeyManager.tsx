@@ -34,9 +34,13 @@ export default function ApiKeyManager() {
   const [key, setKey] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [revealedKeys, setRevealedKeys] = useState<Set<string>>(new Set());
-  const [expandedProviders, setExpandedProviders] = useState<Set<string>>(new Set());
+  const [expandedProviders, setExpandedProviders] = useState<Set<string>>(
+    new Set(),
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [puterUser, setPuterUser] = useState<{ username?: string } | null>(null);
+  const [puterUser, setPuterUser] = useState<{ username?: string } | null>(
+    null,
+  );
 
   // Check Puter auth status on mount
   useEffect(() => {
@@ -183,7 +187,7 @@ export default function ApiKeyManager() {
       groups.get(key.label)!.push(key);
     });
     return Array.from(groups.entries()).sort((a, b) =>
-      a[0].localeCompare(b[0])
+      a[0].localeCompare(b[0]),
     );
   }, [keys]);
 
@@ -335,7 +339,8 @@ export default function ApiKeyManager() {
           </div>
 
           <p className="text-xs text-slate-400">
-            💡 Supports JSON format or text files with PROVIDER=..., KEY=... format
+            💡 Supports JSON format or text files with PROVIDER=..., KEY=...
+            format
           </p>
         </div>
 
@@ -372,7 +377,8 @@ export default function ApiKeyManager() {
                         {provider}
                       </h3>
                       <span className="text-sm text-slate-400">
-                        ({providerKeys.length} key{providerKeys.length !== 1 ? "s" : ""})
+                        ({providerKeys.length} key
+                        {providerKeys.length !== 1 ? "s" : ""})
                       </span>
                     </div>
                     <ChevronDown
@@ -403,7 +409,9 @@ export default function ApiKeyManager() {
                                   <code className="bg-slate-900/50 text-slate-300 px-3 py-2 rounded text-sm break-all font-mono flex-1">
                                     {revealedKeys.has(apiKey.id)
                                       ? apiKey.key
-                                      : "•".repeat(Math.min(apiKey.key.length, 40))}
+                                      : "•".repeat(
+                                          Math.min(apiKey.key.length, 40),
+                                        )}
                                   </code>
                                   <button
                                     onClick={() => toggleReveal(apiKey.id)}
@@ -422,10 +430,7 @@ export default function ApiKeyManager() {
                                   </button>
                                   <button
                                     onClick={() =>
-                                      copyToClipboard(
-                                        apiKey.key,
-                                        apiKey.label
-                                      )
+                                      copyToClipboard(apiKey.key, apiKey.label)
                                     }
                                     className="p-2 hover:bg-slate-700 rounded transition flex-shrink-0"
                                     title="Copy to clipboard"
@@ -436,7 +441,9 @@ export default function ApiKeyManager() {
                               </div>
                               <p className="text-xs text-slate-500">
                                 Added{" "}
-                                {new Date(apiKey.createdAt).toLocaleDateString()}
+                                {new Date(
+                                  apiKey.createdAt,
+                                ).toLocaleDateString()}
                               </p>
                             </div>
 

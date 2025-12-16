@@ -68,17 +68,15 @@ export const usePuterStorage = () => {
       const updated = [...keys, newKey];
       return saveKeys(updated);
     },
-    [keys, saveKeys]
+    [keys, saveKeys],
   );
 
   const updateKey = useCallback(
     async (id: string, label: string, key: string) => {
-      const updated = keys.map((k) =>
-        k.id === id ? { ...k, label, key } : k
-      );
+      const updated = keys.map((k) => (k.id === id ? { ...k, label, key } : k));
       return saveKeys(updated);
     },
-    [keys, saveKeys]
+    [keys, saveKeys],
   );
 
   const deleteKey = useCallback(
@@ -86,7 +84,7 @@ export const usePuterStorage = () => {
       const updated = keys.filter((k) => k.id !== id);
       return saveKeys(updated);
     },
-    [keys, saveKeys]
+    [keys, saveKeys],
   );
 
   const exportKeys = useCallback(() => {
@@ -126,7 +124,10 @@ export const usePuterStorage = () => {
 
       // Parse PROVIDER=value
       if (trimmed.startsWith("PROVIDER=")) {
-        const value = trimmed.replace("PROVIDER=", "").replace(/,+$/, "").trim();
+        const value = trimmed
+          .replace("PROVIDER=", "")
+          .replace(/,+$/, "")
+          .trim();
         if (value) currentKey.label = value;
       }
 
@@ -180,7 +181,7 @@ export const usePuterStorage = () => {
 
         if (imported.length === 0) {
           throw new Error(
-            "No API keys found in file. Supported formats: JSON array or KEY=value text format."
+            "No API keys found in file. Supported formats: JSON array or KEY=value text format.",
           );
         }
 
@@ -193,7 +194,7 @@ export const usePuterStorage = () => {
             typeof item.key !== "string"
           ) {
             throw new Error(
-              "Invalid format: each item must have a label and a valid key"
+              "Invalid format: each item must have a label and a valid key",
             );
           }
         }
@@ -204,7 +205,7 @@ export const usePuterStorage = () => {
 
         if (newKeys.length === 0) {
           throw new Error(
-            "All keys in the imported file already exist (duplicates detected)."
+            "All keys in the imported file already exist (duplicates detected).",
           );
         }
 
@@ -225,7 +226,7 @@ export const usePuterStorage = () => {
         return false;
       }
     },
-    [keys, saveKeys]
+    [keys, saveKeys],
   );
 
   return {

@@ -15,13 +15,22 @@ export default function Index() {
             <span className="text-xl font-bold text-white">React App</span>
           </div>
           <div className="flex items-center gap-4">
-            <a href="#features" className="text-slate-300 hover:text-white transition">
+            <a
+              href="#features"
+              className="text-slate-300 hover:text-white transition"
+            >
               Features
             </a>
-            <a href="#getting-started" className="text-slate-300 hover:text-white transition">
+            <a
+              href="#getting-started"
+              className="text-slate-300 hover:text-white transition"
+            >
               Get Started
             </a>
-            <Link to="/api-keys" className="text-slate-300 hover:text-white transition">
+            <Link
+              to="/api-keys"
+              className="text-slate-300 hover:text-white transition"
+            >
               API Keys
             </Link>
           </div>
@@ -47,7 +56,9 @@ export default function Index() {
             </h1>
 
             <p className="text-xl text-slate-400 leading-relaxed">
-              A modern, production-ready React application template. Start building instantly with TypeScript, Tailwind CSS, and powerful developer tools.
+              A modern, production-ready React application template. Start
+              building instantly with TypeScript, Tailwind CSS, and powerful
+              developer tools.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -109,9 +120,12 @@ export default function Index() {
             <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
               <Zap className="w-6 h-6 text-blue-400" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Lightning Fast</h3>
+            <h3 className="text-xl font-bold text-white mb-3">
+              Lightning Fast
+            </h3>
             <p className="text-slate-400">
-              Powered by Vite with instant HMR and optimized production builds for maximum performance.
+              Powered by Vite with instant HMR and optimized production builds
+              for maximum performance.
             </p>
           </div>
 
@@ -122,7 +136,8 @@ export default function Index() {
             </div>
             <h3 className="text-xl font-bold text-white mb-3">Type Safe</h3>
             <p className="text-slate-400">
-              Full TypeScript support with strict type checking for safer, more maintainable code.
+              Full TypeScript support with strict type checking for safer, more
+              maintainable code.
             </p>
           </div>
 
@@ -131,9 +146,12 @@ export default function Index() {
             <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center mb-4">
               <Sparkles className="w-6 h-6 text-pink-400" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Beautifully Styled</h3>
+            <h3 className="text-xl font-bold text-white mb-3">
+              Beautifully Styled
+            </h3>
             <p className="text-slate-400">
-              Tailwind CSS with a pre-built component library for rapid UI development.
+              Tailwind CSS with a pre-built component library for rapid UI
+              development.
             </p>
           </div>
         </div>
@@ -146,7 +164,8 @@ export default function Index() {
             Ready to Build Something Great?
           </h2>
           <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-            Start your next React project with this modern, production-ready template.
+            Start your next React project with this modern, production-ready
+            template.
           </p>
           <Button
             size="lg"
@@ -166,13 +185,22 @@ export default function Index() {
               © 2024 React App. Built with React 18 + Vite.
             </p>
             <div className="flex gap-6">
-              <a href="#" className="text-slate-400 hover:text-white transition">
+              <a
+                href="#"
+                className="text-slate-400 hover:text-white transition"
+              >
                 GitHub
               </a>
-              <a href="#" className="text-slate-400 hover:text-white transition">
+              <a
+                href="#"
+                className="text-slate-400 hover:text-white transition"
+              >
                 Twitter
               </a>
-              <a href="#" className="text-slate-400 hover:text-white transition">
+              <a
+                href="#"
+                className="text-slate-400 hover:text-white transition"
+              >
                 Docs
               </a>
             </div>

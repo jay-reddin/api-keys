@@ -47,6 +47,16 @@ export default function ApiKeyManager() {
     setRevealedKeys(newRevealed);
   };
 
+  const toggleExpandProvider = (provider: string) => {
+    const newExpanded = new Set(expandedProviders);
+    if (newExpanded.has(provider)) {
+      newExpanded.delete(provider);
+    } else {
+      newExpanded.add(provider);
+    }
+    setExpandedProviders(newExpanded);
+  };
+
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`Copied ${label} to clipboard`);

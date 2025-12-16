@@ -262,7 +262,7 @@ export default function ApiKeyManager() {
           <input
             ref={fileInputRef}
             type="file"
-            accept=".json"
+            accept=".json,.txt,.text"
             onChange={handleImportFile}
             className="hidden"
           />
